@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signature Smiles – Comprehensive Dental Care</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #faf8f3;
+      --ivory:   #f3ede0;
+      --teal:    #1a7a6e;
+      --teal-lt: #2da898;
+      --teal-dk: #0f5549;
+      --gold:    #c9a84c;
+      --gold-lt: #e8c96a;
+      --charcoal:#1c1c1c;
+      --grey:    #6b6b6b;
+      --white:   #ffffff;
+      --shadow:  0 8px 40px rgba(26,122,110,.12);
+      --radius:  16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ── CURSOR ── */
+    body { cursor: none; }
+    #cursor {
+      width: 12px; height: 12px;
+      background: var(--teal);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transition: transform .15s ease, width .2s, height .2s, background .2s;
+      transform: translate(-50%,-50%);
+    }
+    #cursor.grow { width: 40px; height: 40px; background: rgba(26,122,110,.25); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 6vw;
+      background: rgba(250,248,243,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(26,122,110,.1);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-weight: 600;
+      color: var(--teal-dk);
+      line-height: 1.2;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      font-size: .85rem; font-weight: 500; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--charcoal);
+      text-decoration: none; position: relative; transition: color .3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px; background: var(--teal);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--teal);
+      color: var(--white) !important;
+      padding: 10px 22px; border-radius: 40px;
+      transition: background .3s, transform .2s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--teal-dk) !important; transform: translateY(-2px); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--charcoal); border-radius: 2px;
+      transition: .3s;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 6vw;
+      padding-top: 80px;
+      gap: 60px;
+      background: linear-gradient(135deg, var(--cream) 60%, var(--ivory) 100%);
+      position: relative; overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute; top: -120px; right: -120px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,122,110,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(26,122,110,.1);
+      color: var(--teal-dk); font-size: .78rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 8px 18px; border-radius: 40px;
+      margin-bottom: 24px;
+      animation: fadeUp .7s ease both;
+    }
+    .hero-badge::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--teal); animation: pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100%{ transform: scale(1); opacity:1; }
+      50%{ transform: scale(1.5); opacity:.5; }
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--charcoal);
+      animation: fadeUp .7s .15s ease both;
+    }
+    .hero-title em { color: var(--teal); font-style: italic; }
+    .hero-title .highlight {
+      display: block; color: var(--gold);
+      font-weight: 600;
+    }
+
+    .hero-sub {
+      margin-top: 20px; font-size: 1.05rem; color: var(--grey);
+      line-height: 1.7; max-width: 440px;
+      animation: fadeUp .7s .3s ease both;
+    }
+
+    .hero-rating {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 28px;
+      animation: fadeUp .7s .45s ease both;
+    }
+    .stars { color: var(--gold); font-size: 1.1rem; letter-spacing: 2px; }
+    .hero-rating span { font-size: .9rem; color: var(--grey); }
+    .hero-rating strong { color: var(--charcoal); }
+
+    .hero-btns {
+      display: flex; gap: 16px; margin-top: 36px; flex-wrap: wrap;
+      animation: fadeUp .7s .6s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--teal); color: var(--white);
+      padding: 15px 32px; border-radius: 50px;
+      font-size: .95rem; font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(26,122,110,.35);
+      transition: transform .25s, box-shadow .25s, background .25s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(26,122,110,.45);
+      background: var(--teal-dk);
+    }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 2px solid var(--teal);
+      color: var(--teal); padding: 13px 30px; border-radius: 50px;
+      font-size: .95rem; font-weight: 600;
+      text-decoration: none;
+      transition: background .25s, color .25s, transform .25s;
+    }
+    .btn-secondary:hover {
+      background: var(--teal); color: var(--white);
+      transform: translateY(-3px);
+    }
+
+    /* ── HERO IMAGE SIDE ── */
+    .hero-image-wrap {
+      position: relative;
+      animation: fadeRight .9s .3s ease both;
+    }
+
+    @keyframes fadeRight {
+      from { opacity:0; transform: translateX(40px); }
+      to   { opacity:1; transform: translateX(0); }
+    }
+
+    .clinic-card {
+      background: var(--white);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .clinic-card img {
+      width: 100%; height: 320px; object-fit: cover;
+      display: block;
+    }
+
+    .clinic-card-body {
+      padding: 28px;
+    }
+
+    .clinic-card-body h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--teal-dk);
+    }
+
+    .clinic-card-body p {
+      font-size: .88rem; color: var(--grey);
+      margin-top: 6px;
+    }
+
+    .floating-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--white); border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
+      display: flex; align-items: center; gap: 10px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-8px); }
+    }
+    .floating-badge .icon { font-size: 1.6rem; }
+    .floating-badge strong { display: block; font-size: .95rem; }
+    .floating-badge small { color: var(--grey); font-size: .75rem; }
+
+    .decor-circle {
+      position: absolute; bottom: -30px; left: -30px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: var(--teal); opacity: .08;
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(28px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 90px 6vw; }
+    .section-label {
+      font-size: .78rem; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--charcoal);
+    }
+    .section-title em { color: var(--teal); font-style: italic; }
+    .section-desc {
+      margin-top: 14px; font-size: 1rem; color: var(--grey);
+      line-height: 1.8; max-width: 540px;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--white); }
+
+    .services-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; flex-wrap: wrap; gap: 24px;
+      margin-bottom: 56px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .service-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border: 1px solid transparent;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      position: relative; overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--teal-lt));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(26,122,110,.15);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(26,122,110,.12);
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      font-size: 2.4rem; margin-bottom: 18px;
+      display: inline-block;
+      transition: transform .3s;
+    }
+    .service-card:hover .service-icon { transform: scale(1.15) rotate(-5deg); }
+
+    .service-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 600;
+      color: var(--charcoal); margin-bottom: 10px;
+    }
+    .service-card p { font-size: .88rem; color: var(--grey); line-height: 1.7; }
+
+    /* ── ABOUT ── */
+    #about {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: center;
+      background: var(--cream);
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-img-main {
+      width: 100%; border-radius: 24px;
+      box-shadow: var(--shadow);
+      object-fit: cover; height: 480px;
+      display: block;
+    }
+
+    .about-stat-box {
+      position: absolute; bottom: -30px; right: -30px;
+      background: var(--teal);
+      color: var(--white);
+      border-radius: 18px;
+      padding: 24px 28px;
+      box-shadow: 0 8px 32px rgba(26,122,110,.4);
+    }
+    .about-stat-box strong {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; display: block; line-height: 1;
+    }
+    .about-stat-box span { font-size: .85rem; opacity: .85; }
+
+    .about-content .section-desc { max-width: 100%; }
+
+    .about-features {
+      margin-top: 32px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .about-feature {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .about-feature-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: rgba(26,122,110,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .about-feature h4 { font-size: .95rem; font-weight: 600; margin-bottom: 4px; }
+    .about-feature p { font-size: .85rem; color: var(--grey); }
+
+    /* ── LOCATION & HOURS ── */
+    #contact { background: var(--white); }
+
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; margin-top: 56px; align-items: start;
+    }
+
+    .info-card {
+      background: var(--cream); border-radius: var(--radius);
+      padding: 36px;
+    }
+    .info-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 600;
+      color: var(--teal-dk); margin-bottom: 24px;
+    }
+    .info-row {
+      display: flex; gap: 14px; align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .info-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--teal); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .info-row p { font-size: .9rem; line-height: 1.6; }
+    .info-row p strong { display: block; font-weight: 600; margin-bottom: 2px; }
+
+    .hours-list {
+      list-style: none; display: flex; flex-direction: column; gap: 10px;
+    }
+    .hours-list li {
+      display: flex; justify-content: space-between;
+      font-size: .9rem; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .hours-list li:last-child { border: none; padding: 0; }
+    .status-open { color: var(--teal); font-weight: 600; }
+    .status-closed { color: #e05252; font-weight: 600; }
+
+    /* ── CTA STRIP ── */
+    #cta-strip {
+      background: linear-gradient(135deg, var(--teal-dk) 0%, var(--teal) 100%);
+      padding: 72px 6vw;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    #cta-strip::before {
+      content: '🦷';
+      position: absolute; font-size: 260px; opacity: .04;
+      top: -40px; right: -30px; pointer-events: none;
+    }
+    #cta-strip h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--white); font-weight: 300;
+    }
+    #cta-strip h2 em { font-style: italic; color: var(--gold-lt); }
+    #cta-strip p {
+      color: rgba(255,255,255,.75); margin-top: 12px;
+      font-size: 1.05rem; line-height: 1.7;
+    }
+    #cta-strip .btn-whatsapp {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: #25D366; color: var(--white);
+      padding: 18px 40px; border-radius: 50px;
+      font-size: 1.05rem; font-weight: 700;
+      text-decoration: none; margin-top: 36px;
+      box-shadow: 0 8px 30px rgba(37,211,102,.5);
+      transition: transform .25s, box-shadow .25s;
+    }
+    #cta-strip .btn-whatsapp:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 16px 40px rgba(37,211,102,.6);
+    }
+    #cta-strip .btn-whatsapp svg { width: 24px; height: 24px; fill: currentColor; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--ivory); }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px; margin-top: 52px;
+    }
+    .test-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 32px; position: relative;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .test-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.08);
+    }
+    .test-card::before {
+      content: '"'; font-family: 'Cormorant Garamond', serif;
+      font-size: 6rem; line-height: .8;
+      color: var(--teal); opacity: .15;
+      position: absolute; top: 16px; left: 20px;
+    }
+    .test-card p { font-size: .93rem; line-height: 1.75; color: var(--grey); }
+    .test-footer {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 24px;
+    }
+    .test-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--teal); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .95rem;
+    }
+    .test-footer strong { font-size: .9rem; }
+    .test-footer small { display: block; color: var(--grey); font-size: .8rem; }
+    .test-stars { color: var(--gold); font-size: .9rem; margin-bottom: 4px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal); color: rgba(255,255,255,.65);
+      padding: 48px 6vw 32px;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 24px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 600;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--gold); }
+    footer p { font-size: .85rem; margin-top: 4px; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a {
+      color: rgba(255,255,255,.55); text-decoration: none;
+      font-size: .85rem; transition: color .25s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy {
+      text-align: center; margin-top: 36px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 24px; font-size: .8rem;
+    }
+
+    /* ── WHATSAPP FLOAT ── */
+    .whatsapp-float {
+      position: fixed; bottom: 28px; right: 28px; z-index: 800;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(37,211,102,.5);
+      text-decoration: none;
+      animation: float 3s ease-in-out infinite;
+      transition: transform .25s;
+    }
+    .whatsapp-float:hover { transform: scale(1.12); }
+    .whatsapp-float svg { width: 32px; height: 32px; fill: #fff; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── MOBILE NAV ── */
+    @media (max-width: 860px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed; top: 70px; left: 0; right: 0;
+        background: var(--cream);
+        flex-direction: column; gap: 0;
+        padding: 0 0 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.08);
+        transform: translateY(-120%);
+        transition: transform .35s;
+        pointer-events: none;
+      }
+      .nav-links.open {
+        transform: translateY(0); pointer-events: all;
+      }
+      .nav-links li { border-bottom: 1px solid rgba(0,0,0,.05); }
+      .nav-links a {
+        display: block; padding: 16px 24px;
+        font-size: .95rem;
+      }
+      .nav-links a::after { display: none; }
+      .nav-cta { margin: 12px 16px 4px; text-align: center; border-radius: 8px; }
+    }
+
+    @media (max-width: 860px) {
+      #hero {
+        grid-template-columns: 1fr;
+        padding-top: 100px;
+        gap: 40px;
+      }
+      .hero-image-wrap { order: -1; }
+      #about {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .about-stat-box { right: 10px; bottom: -20px; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 500px) {
+      section { padding: 60px 5vw; }
+      .services-header { margin-bottom: 36px; }
+      .hero-btns { flex-direction: column; }
+      .btn-primary, .btn-secondary { justify-content: center; }
+    }
+
+    /* ── SMOOTH LINE ── */
+    .divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      border-radius: 4px; margin: 16px 0 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor"></div>
+
+<!-- WHATSAPP FLOATING -->
+<a href="https://wa.me/919419857334?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Signature%20Smiles." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 0C5.374 0 0 5.373 0 12c0 2.117.554 4.099 1.522 5.819L0 24l6.335-1.652A11.955 11.955 0 0012.004 24C18.63 24 24 18.626 24 12S18.63 0 12.004 0zm0 21.818a9.812 9.812 0 01-5.007-1.374l-.36-.214-3.721.976 1.001-3.618-.235-.374A9.778 9.778 0 012.182 12c0-5.417 4.406-9.818 9.822-9.818 5.417 0 9.818 4.401 9.818 9.818 0 5.416-4.401 9.818-9.818 9.818z"/></svg>
+</a>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">Signature <span>Smiles</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li>
+      <a href="https://wa.me/919419857334?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Signature%20Smiles." class="nav-cta" target="_blank" rel="noopener">
+        Book Appointment
+      </a>
+    </li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">✦ Srinagar's Trusted Dental Clinic</div>
+    <h1 class="hero-title">
+      Your Smile, <br>
+      Our <em>Passion.</em>
+      <span class="highlight">Signature Smiles.</span>
+    </h1>
+    <p class="hero-sub">Comprehensive Dental Care delivered with precision, warmth, and the latest technology — right in the heart of Khanyaar, Srinagar.</p>
+    <div class="hero-rating">
+      <span class="stars">★★★★½</span>
+      <span><strong>4.7</strong> / 5 · (37 reviews)</span>
+    </div>
+    <div class="hero-btns">
+      <a href="https://wa.me/919419857334?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Signature%20Smiles." target="_blank" rel="noopener" class="btn-primary">
+        📅 Book via WhatsApp
+      </a>
+      <a href="tel:+919419857334" class="btn-secondary">📞 Call Us</a>
+    </div>
+  </div>
+
+  <div class="hero-image-wrap">
+    <div class="clinic-card">
+      <div style="background: linear-gradient(135deg,#1a7a6e,#2da898); height:300px; display:flex; align-items:center; justify-content:center; font-size:6rem;">🦷</div>
+      <div class="clinic-card-body">
+        <h3>Signature Smiles</h3>
+        <p>Comprehensive Dental Care · Shiraz Chowk, above J&amp;K Bank, Khanyaar, Srinagar — 190003</p>
+      </div>
+    </div>
+    <div class="floating-badge">
+      <div class="icon">🏅</div>
+      <div><strong>4.7 ★ Rated</strong><small>37 Happy Patients</small></div>
+    </div>
+    <div class="decor-circle"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Comprehensive <em>Dental</em> Services</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="section-desc">From routine cleanings to advanced cosmetic procedures — we handle it all under one roof.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🦷</div>
+      <h3>General Dentistry</h3>
+      <p>Routine checkups, cleanings, fillings, and preventive care to keep your teeth healthy and strong for a lifetime.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">✨</div>
+      <h3>Teeth Whitening</h3>
+      <p>Professional-grade whitening treatments that give you a radiant, confident smile in just one visit.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🔧</div>
+      <h3>Orthodontics</h3>
+      <p>Braces and clear aligners to straighten your teeth and correct bite issues for lasting oral health.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🪥</div>
+      <h3>Root Canal Treatment</h3>
+      <p>Gentle, painless root canal therapy using modern techniques to save infected teeth and relieve pain.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">💎</div>
+      <h3>Dental Implants</h3>
+      <p>Permanent, natural-looking tooth replacements that restore your smile, function, and confidence completely.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">😁</div>
+      <h3>Smile Designing</h3>
+      <p>Customised cosmetic procedures — veneers, bonding, and contouring — to craft your perfect smile.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual reveal">
+    <div style="background: linear-gradient(135deg,#0f5549,#1a7a6e); border-radius:24px; height:480px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; box-shadow: 0 8px 40px rgba(26,122,110,.2);">
+      <div style="font-size:5rem;">👩‍⚕️</div>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:#fff; font-weight:600; text-align:center; padding:0 20px;">Expert Dental Care<br><span style="font-weight:300; font-size:1.1rem; opacity:.8;">Modern Clinic · Qualified Team</span></div>
+    </div>
+    <div class="about-stat-box">
+      <strong>4.7★</strong>
+      <span>Google Rating</span>
+    </div>
+  </div>
+
+  <div class="about-content reveal">
+    <div class="section-label">About Our Clinic</div>
+    <h2 class="section-title">Care You Can <em>Trust</em></h2>
+    <div class="divider"></div>
+    <p class="section-desc">Signature Smiles – Comprehensive Dental Care is one of Srinagar's most trusted dental clinics, nestled above J&amp;K Bank at Shiraz Chowk, Khanyaar. We combine modern technology with a gentle, patient-first approach to deliver exceptional dental care to every patient.</p>
+
+    <div class="about-features">
+      <div class="about-feature">
+        <div class="about-feature-icon">📍</div>
+        <div>
+          <h4>Convenient Location</h4>
+          <p>Above J&K Bank, Shiraz Chowk, Khanyaar, Srinagar, J&K – 190003</p>
+        </div>
+      </div>
+      <div class="about-feature">
+        <div class="about-feature-icon">📞</div>
+        <div>
+          <h4>Easy to Reach</h4>
+          <p>Call or WhatsApp us at <a href="tel:+919419857334" style="color:var(--teal);font-weight:600;">094198 57334</a></p>
+        </div>
+      </div>
+      <div class="about-feature">
+        <div class="about-feature-icon">🏅</div>
+        <div>
+          <h4>Highly Rated</h4>
+          <p>4.7 stars from 37 verified patient reviews on Google Maps</p>
+        </div>
+      </div>
+      <div class="about-feature">
+        <div class="about-feature-icon">💡</div>
+        <div>
+          <h4>Modern Equipment</h4>
+          <p>State-of-the-art dental technology for precise, comfortable treatments</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div style="text-align:center; max-width:560px; margin:0 auto 0;">
+    <div class="section-label">Patient Reviews</div>
+    <h2 class="section-title">What Our Patients <em>Say</em></h2>
+    <div class="divider" style="margin:16px auto;"></div>
+    <p class="section-desc" style="max-width:100%;">Real stories from real smiles — our patients are our biggest advocates.</p>
+  </div>
+
+  <div class="testimonials-grid" style="margin-top:52px;">
+    <div class="test-card reveal">
+      <div class="test-stars">★★★★★</div>
+      <p>Absolutely amazing experience! The staff is so warm and professional. My teeth have never looked better. Highly recommend Signature Smiles to everyone in Srinagar.</p>
+      <div class="test-footer">
+        <div class="test-avatar">AR</div>
+        <div><strong>Aadil Rashid</strong><small>Srinagar, Kashmir</small></div>
+      </div>
+    </div>
+    <div class="test-card reveal">
+      <div class="test-stars">★★★★★</div>
+      <p>Got my root canal done here and it was completely painless. The doctor was incredibly gentle and explained everything clearly. Will definitely come back for all my dental needs.</p>
+      <div class="test-footer">
+        <div class="test-avatar">SB</div>
+        <div><strong>Sana Bhat</strong><small>Khanyaar, Srinagar</small></div>
+      </div>
+    </div>
+    <div class="test-card reveal">
+      <div class="test-stars">★★★★☆</div>
+      <p>Very clean and modern clinic. The teeth whitening treatment gave me visible results in one session. Friendly atmosphere and convenient location above J&K Bank.</p>
+      <div class="test-footer">
+        <div class="test-avatar">IM</div>
+        <div><strong>Imran Mir</strong><small>Lal Chowk, Srinagar</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section id="cta-strip">
+  <h2>Ready for a <em>Healthier Smile?</em></h2>
+  <p>Book your appointment instantly on WhatsApp — quick, easy, and confirmed in minutes.</p>
+  <a href="https://wa.me/919419857334?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20Signature%20Smiles%20Dental%20Clinic." target="_blank" rel="noopener" class="btn-whatsapp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 0C5.374 0 0 5.373 0 12c0 2.117.554 4.099 1.522 5.819L0 24l6.335-1.652A11.955 11.955 0 0012.004 24C18.63 24 24 18.626 24 12S18.63 0 12.004 0zm0 21.818a9.812 9.812 0 01-5.007-1.374l-.36-.214-3.721.976 1.001-3.618-.235-.374A9.778 9.778 0 012.182 12c0-5.417 4.406-9.818 9.822-9.818 5.417 0 9.818 4.401 9.818 9.818 0 5.416-4.401 9.818-9.818 9.818z"/></svg>
+    Book Appointment on WhatsApp
+  </a>
+</section>
+
+<!-- CONTACT & HOURS -->
+<section id="contact">
+  <div class="section-label">Find Us</div>
+  <h2 class="section-title">Location & <em>Hours</em></h2>
+  <div class="divider"></div>
+
+  <div class="contact-grid">
+    <div class="info-card reveal">
+      <h3>📍 Clinic Information</h3>
+      <div class="info-row">
+        <div class="info-icon">🗺️</div>
+        <p><strong>Address</strong>Shiraz Chowk, above J&amp;K Bank, Khanyaar, Srinagar, Jammu and Kashmir – 190003</p>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📞</div>
+        <p><strong>Phone / WhatsApp</strong><a href="tel:+919419857334" style="color:var(--teal);font-weight:500;">094198 57334</a></p>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🗾</div>
+        <p><strong>Plus Code</strong>3RR9+HQ Srinagar</p>
+      </div>
+      <div style="margin-top:24px;">
+        <a href="https://wa.me/919419857334?text=Hello%2C%20I%20want%20to%20book%20an%20appointment." target="_blank" rel="noopener" class="btn-primary" style="font-size:.9rem; padding:12px 26px;">
+          💬 Message on WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="info-card reveal">
+      <h3>🕒 Working Hours</h3>
+      <ul class="hours-list">
+        <li><span>Monday</span><span class="status-open">Open</span></li>
+        <li><span>Tuesday</span><span>Opens 2 pm</span></li>
+        <li><span>Wednesday</span><span class="status-open">Open</span></li>
+        <li><span>Thursday</span><span class="status-open">Open</span></li>
+        <li><span>Friday</span><span class="status-open">Open</span></li>
+        <li><span>Saturday</span><span class="status-open">Open</span></li>
+        <li><span>Sunday</span><span class="status-open">Open</span></li>
+      </ul>
+      <p style="margin-top:20px; font-size:.82rem; color:var(--grey);">* Hours may vary. Call ahead or message on WhatsApp to confirm your slot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Signature <span>Smiles</span></div>
+      <p>Comprehensive Dental Care · Srinagar, Kashmir</p>
+    </div>
+    <div class="footer-links">
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#contact">Contact</a>
+      <a href="https://wa.me/919419857334" target="_blank" rel="noopener">Book Now</a>
+    </div>
+  </div>
+  <div class="footer-copy">
+    &copy; 2026 Signature Smiles – Comprehensive Dental Care. All rights reserved.<br>
+    Shiraz Chowk, above J&K Bank, Khanyaar, Srinagar – 190003 &nbsp;|&nbsp; 📞 094198 57334
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .service-card, .test-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (i % 3) * 0.12 + 's';
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => io.observe(r));
+
+  // Navbar scroll shadow
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Hamburger
+  const ham = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  ham.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+</script>
+</body>
+</html>
